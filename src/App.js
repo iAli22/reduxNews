@@ -4,7 +4,7 @@ import { Navbar, NewsForm, NewsList } from "./components";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-function App({ handleEdit }) {
+function App() {
   return (
     <Provider store={store}>
       <div className="App">
@@ -12,7 +12,7 @@ function App({ handleEdit }) {
 
         <Container>
           <NewsForm />
-          <NewsList handleEdit={handleEdit} />
+          <NewsList />
         </Container>
       </div>
     </Provider>
