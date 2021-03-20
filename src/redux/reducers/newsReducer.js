@@ -1,8 +1,15 @@
-import { GET_NEWS, CREATE_NEWS, DELETE_NEWS, UPDATE_NEWS } from "../actions";
+import {
+  GET_NEWS,
+  CREATE_NEWS,
+  DELETE_NEWS,
+  UPDATE_NEWS,
+  GET_UPDATE_NEWS,
+} from "../actions";
 
 const initialState = {
   items: [],
   item: {},
+  selected: undefined,
 };
 
 const setNewsData = (news) =>
@@ -32,17 +39,25 @@ export default function (state = initialState, action) {
         items: afterDeleted,
       };
 
+    case GET_UPDATE_NEWS:
+      return {
+        ...state,
+        item: state.items[action.payload],
+        selected: action.payload,
+      };
+
     case UPDATE_NEWS:
       const editedNews = state.items.map((news, i) =>
-        i !== action.selected.index ? news : action.payload
+        i !== action.selected ? news : action.payload
       );
 
-      console.log(editedNews);
-    // setNewsData(editedNews);
-    // return {
-    //   ...state,
-    //   items: editedNews,
-    // };
+      setNewsData(editedNews);
+
+      return {
+        ...state,
+        items: editedNews,
+        selected: undefined,
+      };
 
     default:
       return state;

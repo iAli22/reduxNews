@@ -15,6 +15,7 @@ import {
   getNewsData,
   deleteNews,
   editNews,
+  getEditNews,
 } from "../../redux/actions/newsAction";
 import { openModel } from "../../redux/actions/modelAction";
 
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewsList({ getNewsData, news, deleteNews, openModel }) {
+function NewsList({ getNewsData, news, deleteNews, openModel, getEditNews }) {
   const classes = useStyles();
 
   const handleDelete = (index) => {
@@ -46,11 +47,10 @@ function NewsList({ getNewsData, news, deleteNews, openModel }) {
       deleteNews(index);
   };
 
-  // const handleEdit = (item, index) => {
-  //   console.log(item, index);
-
-  //   openModel();
-  // };
+  const handleEdit = (item, index) => {
+    getEditNews(index);
+    openModel();
+  };
 
   useEffect(() => {
     getNewsData();
@@ -91,13 +91,13 @@ function NewsList({ getNewsData, news, deleteNews, openModel }) {
                     >
                       Delete
                     </Button>
-                    {/* <Button
+                    <Button
                       size="small"
                       color="primary"
                       onClick={() => handleEdit(item, index)}
                     >
                       Edit
-                    </Button> */}
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
@@ -121,4 +121,5 @@ export default connect(mapStateToProps, {
   deleteNews,
   openModel,
   editNews,
+  getEditNews,
 })(NewsList);

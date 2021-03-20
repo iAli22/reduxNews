@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -46,10 +46,16 @@ function NewsForm({
   addNews,
   getNewsData,
   model,
+  newsStore,
   openModel,
   closeModel,
   editNews,
 }) {
+  useEffect(() => {
+    if (newsStore.selected || newsStore.selected === 0) {
+      setNews(newsStore.item);
+    }
+  }, [newsStore]);
   const classes = useStyles();
   const [news, setNews] = useState({
     title: "",
@@ -85,8 +91,14 @@ function NewsForm({
     e.preventDefault();
 
     // editNews
+    if (newsStore.selected || newsStore.selected === 0) {
+      // Edit
+      editNews(news, newsStore.selected);
+    } else {
+      // Add New One
+      addNews(news);
+    }
 
-    addNews(news);
     getNewsData();
     closeModel();
     setNews(() => ({
@@ -188,8 +200,9 @@ function NewsForm({
   );
 }
 
-const mapStateToProps = ({ model }) => ({
+const mapStateToProps = ({ model, news }) => ({
   model,
+  newsStore: news,
 });
 
 export default connect(mapStateToProps, {
